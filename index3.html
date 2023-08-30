@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Multi-Step Form</title>
+  <style>
+    .step {
+      display: none;
+    }
+    .active-step {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Dynamic Multi-Step Form</h2>
+
+<div id="formContainer">
+  <!-- Steps will be inserted here -->
+</div>
+
+<button onclick="prevStep()">Previous</button>
+<button onclick="nextStep()">Next</button>
+
+<script>
+  let currentStep = 0;
+  let userType = "";
+  let language = "";
+
+  // Define your steps here
+  const steps = [
+    {
+      label: 'Select Language',
+      inputType: 'select',
+      options: ['English', 'Arabic', 'French'],
+      onChange: function(value) {
+        language = value;
+        translateForm();
+      }
+    },
+    {
+      label: 'Select User Type',
+      inputType: 'select',
+      options: ['Admin', 'User'],
+      onChange: function(value) {
+        userType = value;
+        conditionalInputs();
+      }
+    },
+    {
+      label: 'Conditional Fields',
+      inputType: 'group',
+      children: [] // This will be populated based on userType
+    },
+    // Add more steps as needed
+  ];
+
+  // Translate form based on the selected language
+  function translateForm() {
+    // Translation logic here
+    // For example, you can update label.textContent based on the language
+  }
+
+  // Update the input fields based on the selected user type
+  function conditionalInputs() {
+    const stepDiv = document.getElementsByClassName('step')[2];
+    stepDiv.innerHTML = "";
+
+    const label = document.createElement('label');
+    label.textContent = "Conditional Fields";
+    stepDiv.appendChild(label);
+
+    let fields = [];
+
+    if (userType === 'Admin') {
+      fields = ['Field A', 'Field B'];
+    } else if (userType === 'User') {
+      fields = ['Field X', 'Field Y'];
+    }
+
+    fields.forEach(field => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = field;
+      stepDiv.appendChild(input);
+    });
+  }
+
+  // Initialize the form
+  function initializeForm() {
+    steps.forEach((step, index) => {
+      const stepDiv = document.createElement('div');
+      stepDiv.classList.add('step');
+      if (index === 0) {
+        stepDiv.classList.add('active-step');
+      }
+
+      const label = document.createElement('label');
+      label.textContent = step.label;
+
+      if (step.inputType === 'select') {
+        const select = document.createElement('select');
+        step.options.forEach(option => {
+          const opt = document.createElement('option');
+          opt.value = option;
+          opt.textContent = option;
+          select.appendChild(opt);
+        });
+        select.addEventListener('change', function() {
+          step.onChange(this.value);
+        });
+        stepDiv.appendChild(label);
+        stepDiv.appendChild(select);
+      } else if (step.inputType === 'group') {
+        stepDiv.appendChild(label);
+      }
+
+      document.getElementById('formContainer').appendChild(stepDiv);
+    });
+  }
+
+  // Go to the next step
+  function nextStep() {
+    if (currentStep < steps.length - 1) {
+      document.getElementsByClassName('step')[currentStep].classList.remove('active-step');
+      currentStep++;
+      document.getElementsByClassName('step')[currentStep].classList.add('active-step');
+    }
+  }
+
+  // Go to the previous step
+  function prevStep() {
+    if (currentStep > 0) {
+      document.getElementsByClassName('step')[currentStep].classList.remove('active-step');
+      currentStep--;
+      document.getElementsByClassName('step')[currentStep].classList.add('active-step');
+    }
+  }
+
+  // Initialize the form when the document is ready
+  document.addEventListener("DOMContentLoaded", function() {
+    initializeForm();
+  });
+</script>
+
+</body>
+</html>

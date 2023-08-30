@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Single Page App Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <style>
+    /* Custom CSS to make the whole layout appear like a phone screen */
+    body {
+      background-color: #f1f1f1;
+      /* Background color to separate content area */
+    }
+
+    .phone-body {
+      max-width: 400px;
+      /* Max width to simulate phone width */
+      margin: auto;
+      /* Center the content */
+      min-height: 100vh;
+      background-color: #ffffff;
+      /* Background color for the content */
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      /* Optional: Add some shadow to make it stand out */
+    }
+
+    .is-square {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="phone-body">
+    <div class="container">
+
+      <!-- 
+        Section 1 Language selection
+       -->
+      <div id="section1" class="section">
+        <!-- Language selection -->
+        <div class="field">
+          <label class="label">Select Language</label>
+          <div class="control">
+            <div class="select">
+              <select id="language">
+                <option>English</option>
+                <option>Arabic</option>
+                <option>French</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="file has-name">
+            <label class="file-label">
+              <input class="file-input" type="file" id="imageUpload" accept="image/*">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a file…
+                </span>
+              </span>
+              <span class="file-name" id="fileName">
+                No file uploaded
+              </span>
+            </label>
+          </div>
+    
+          <div class="image is-128x128" style="overflow: hidden;">
+            <img id="imagePreview" src="https://via.placeholder.com/128" alt="Image Preview" class="is-square">
+          </div>
+        </div>
+  
+        <button class="button is-primary next" data-translate="next">Next</button>
+      </div>
+
+      <!-- 
+        Section 2 Personal informations
+       -->
+      <div id="section2" class="section" style="display: none;">
+        <!-- Business name -->
+        <div class="field">
+          <label class="label" data-translate="areYou">Are you a ...?</label>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="userType" value="business">
+              <span data-translate="businessTypes">Business ( startup , small business , etc.)</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="userType" value="incubator">
+              <span data-translate="incubator">Incubator</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="userType" value="organism">
+              <span data-translate="organism">Organisme or institution (your activity must help Algerian businesses and
+                entrepreneurs)</span>
+
+            </label>
+          </div>
+        </div>
+        <button class="button is-light prev" data-translate="ervious">Previous</button>
+        <button class="button is-primary next" data-translate="next">Next</button>
+      </div>
+
+      <!-- 
+        Section 3
+       -->
+      <div id="section3" class="section" style="display: none;">
+        <!-- Business name -->
+        <div class="field">
+          <label class="label" data-translate="businessNames">Business Names</label>
+          <div class="control">
+            <input class="input" type="text" name="businessName">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="label" data-translate="email">Email</label>
+          <div class="control">
+            <input class="input" type="email" name="email" required>
+          </div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="field">
+          <label class="label" data-translate="phoneNumber">Phone Number</label>
+          <div class="control">
+            <input class="input" type="tel" name="phone_number" required>
+          </div>
+        </div>
+
+        <!-- Number of Employees -->
+        <div class="field">
+          <label class="label" data-translate="nbEmployee">Number of Employees</label>
+          <div class="control">
+            <input class="input" type="number" name="num_employees" min="1" required>
+          </div>
+        </div>
+
+        <!-- Customer Segmentation -->
+        <div class="field">
+          <label class="label" data-translate="customerSegmentation">Your Customer Segmentation</label>
+          <div class="control">
+            <label class="checkbox">
+              <input type="checkbox" name="customer_segment[]" value="B2C"> B2C
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" name="customer_segment[]" value="B2B"> B2B
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" name="customer_segment[]" value="B2G"> B2G
+            </label>
+            <input class="input" type="text" name="customer_segment_other" placeholder="Other">
+          </div>
+        </div>
+
+        <!-- Industry -->
+        <div class="field">
+          <label class="label" data-translate="industrySection">What is your industry?</label>
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="industry" value="Products">
+              <span data-translate="products">Products</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="industry" value="Services">
+              <span data-translate="services">Services</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="industry" value="Apps and softwars">
+              <span data-translate="appSoftware">Apps and softwares</span>
+            </label>
+          </div>
+        </div>
+        <button class="button is-light prev" data-translate="previous">Previous</button>
+        <button class="button is-primary next" data-translate="next">Next</button>
+      </div>
+
+
+    </div>
+  </div>
+
+  <script>
+    // Translations
+    const translations = {
+      "English": {
+        "next": "Next",
+        "previous": "Previous",
+        "areYou": "Are you a ...?",
+        "businessNames": "Business Names",
+        "email": "Email",
+        "phoneNumber": "Phone Number",
+        "nbEmployee": "Number of Employees",
+        "customerSegmentation": "Your Customer Segmentation",
+        "industrySection": "What is your industry?",
+        "products": "Products",
+        "services": "Services",
+        "appSoftware": "Apps and softwares",
+        "businessTypes": "Business ( startup , small business , etc.)",
+        "incubator": "Incubator",
+        "organism": "Organisme or institution (your activity must help Algerian businesses and entrepreneurs)",
+
+      },
+      "Arabic": {
+        "next": "Next",
+        "previous": "Previous",
+        "areYou": "هل أنت...؟",
+        "businessNames": "أسماء الأعمال",
+        "email": "البريد الإلكتروني",
+        "phoneNumber": "رقم الهاتف",
+        "nbEmployee": "عدد الموظفين",
+        "customerSegmentation": "تجزئة العملاء",
+        "industrySection": "ما هو مجالك؟",
+        "products": "Products",
+        "services": "Services",
+        "appSoftware": "Apps and softwares",
+        "businessTypes": "Business ( startup , small business , etc.)",
+        "incubator": "Incubator",
+        "organism": "Organisme or institution (your activity must help Algerian businesses and entrepreneurs)",
+
+      },
+      "French": {
+        "next": "Next",
+        "previous": "Previous",
+        "areYou": "Êtes-vous...?",//*
+        "businessNames": "Noms des entreprises",//*
+        "email": "Courriel",//*
+        "phoneNumber": "Numéro de téléphone",//*
+        "nbEmployee": "Nombre d'employés",//*
+        "customerSegmentation": "Votre segmentation client",//*
+        "industrySection": "Dans quel secteur êtes-vous?",//*
+        "products": "Produits",
+        "services": "Services",
+        "appSoftware": "Apps et softwares",
+        "businessTypes": "Business ( startup , small business , etc.)",
+        "incubator": "Incubator",
+        "organism": "Organisme or institution (your activity must help Algerian businesses and entrepreneurs)",
+
+      }
+    }
+
+    let selectedUserType = null;
+
+    // Initialize active section
+    let activeSection = 'section1'; // Changed from a number to a string
+    const totalSections = ['section1', 'section2', 'section3']; // Using an array instead of a number
+
+    // Function to update section visibility
+    function updateSections() {
+      const sections = ['section1', 'section2', 'section3'];
+      sections.forEach(id => {
+        const section = document.getElementById(id);
+        if (id === activeSection) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    }
+    document.querySelectorAll('[name="userType"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        selectedUserType = this.value;
+      });
+    });
+
+    // Initialize
+    updateSections();
+
+    // Add event listeners to 'Next' buttons
+    const nextButtons = document.querySelectorAll('.next');
+    nextButtons.forEach(button => {
+      button.addEventListener('click', function () {
+
+        const currentSection = document.getElementById(activeSection);
+        const requiredInputs = currentSection.querySelectorAll('input[required]');
+        let allFilled = true;
+
+        // Check if all required fields are filled
+        requiredInputs.forEach(input => {
+          if (!input.value) {
+            allFilled = false;
+          }
+        });
+
+        if (!allFilled) {
+          alert("Please fill all required fields.");
+          return;
+        }
+
+        // Existing logic for changing sections
+        if (activeSection === 'section2') {
+          switch (selectedUserType) {
+            case 'business':
+              activeSection = 'section3';
+              break;
+            case 'incubator':
+              activeSection = 'section3';
+              break;
+            case 'organism':
+              activeSection = 'section3';
+              break;
+            default:
+              alert("Please select a user type.");
+              return;
+          }
+        } else if (activeSection === 'section1') {
+          activeSection = 'section2';
+        }
+
+        updateSections();
+      });
+    });
+
+
+
+    // Add event listeners to 'Previous' buttons
+    const prevButtons = document.querySelectorAll('.prev');
+    prevButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const currentIndex = totalSections.indexOf(activeSection);
+        if (currentIndex > 0) {
+          activeSection = totalSections[currentIndex - 1];
+          updateSections();
+        }
+      });
+    });
+
+
+    function changeLanguage(language) {
+      const areYouLabel = document.querySelector('[data-translate="areYou"]');
+      const businessNamesLabel = document.querySelector('[data-translate="businessNames"]');
+      const emailLabel = document.querySelector('[data-translate="email"]');
+      const phoneNumberLabel = document.querySelector('[data-translate="phoneNumber"]');
+      const nbEmployeeLabel = document.querySelector('[data-translate="nbEmployee"]');
+      const customerSegmentationLabel = document.querySelector('[data-translate="customerSegmentation"]');
+      const industryLabel = document.querySelector('[data-translate="industrySection"]');
+      const products = document.querySelector('[data-translate="products"]');
+      const services = document.querySelector('[data-translate="services"]');
+      const appSoftware = document.querySelector('[data-translate="appSoftware"]');
+      const businessTypes = document.querySelector('[data-translate="businessTypes"]');
+      const incubator = document.querySelector('[data-translate="incubator"]');
+      const organism = document.querySelector('[data-translate="organism"]');
+
+      areYouLabel.textContent = translations[language]["areYou"];
+      businessNamesLabel.textContent = translations[language]["businessNames"];
+      emailLabel.textContent = translations[language]["email"];
+      phoneNumberLabel.textContent = translations[language]["phoneNumber"];
+      nbEmployeeLabel.textContent = translations[language]["nbEmployee"];
+      customerSegmentationLabel.textContent = translations[language]["customerSegmentation"];
+      industryLabel.textContent = translations[language]["industrySection"];
+      products.textContent = translations[language]["products"];
+      services.textContent = translations[language]["services"];
+      appSoftware.textContent = translations[language]["appSoftware"];
+      businessTypes.textContent = translations[language]["businessTypes"];
+      incubator.textContent = translations[language]["incubator"];
+      organism.textContent = translations[language]["organism"];
+
+    }
+
+    // Listen to language changes
+    const languageDropdown = document.getElementById('language');
+    languageDropdown.addEventListener('change', function () {
+      changeLanguage(this.value);
+    });
+
+    // Initialize to English
+    changeLanguage('English');
+
+
+    // Image Handler
+
+    const imageUpload = document.getElementById('imageUpload');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileName = document.getElementById('fileName');
+    imageUpload.addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        fileName.textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          imagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>
